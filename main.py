@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-import heapq  # Librería nativa para manejar colas de prioridad (min-heap) en el A*
+import heapq  # Librería nativa para manejar colas de prioridad (min-heap) en el A* // QUIAR LIBRERÍA
+
 
 # ==============================================================================
 # MÓDULO 1: GENERACIÓN DE DATOS (DATASET ESTOCÁSTICO)
