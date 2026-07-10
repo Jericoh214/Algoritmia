@@ -1,6 +1,12 @@
+
+"""
+PROYECTO DE ALGORITMIA Y est de datos AVZ
+
+"""
+
 import pandas as pd
 import numpy as np
-import heapq  # Librería nativa para manejar colas de prioridad (min-heap) en el A* // QUIAR LIBRERÍA
+import heapq  # Librería nativa para manejar colas de prioridad (min-heap) en el A* 
 
 
 # ==============================================================================
