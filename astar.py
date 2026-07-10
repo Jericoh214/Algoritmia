@@ -1,5 +1,3 @@
-PROYECTO ALGORITMIA Y ESTRUCURA DE DATOS
-
 """
 MÓDULO 5: RETO 4 - NAVEGACIÓN INTELIGENTE CON A* (A-ESTRELLA)
 ==================================================================

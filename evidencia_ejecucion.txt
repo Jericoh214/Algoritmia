@@ -1,0 +1,52 @@
+
+======================================================================
+        SISTEMA INTEGRAL DE OPTIMIZACIÓN - SAFEROUTE LOGISTICS        
+======================================================================
+
+[SISTEMA] Dataset estocástico inicializado con 1200 registros.
+
+----------------------------------------------------------------------
+ RETO 1: CONSISTENCIA DE INVENTARIOS (ÁRBOL AVL) 
+----------------------------------------------------------------------
+ -> Catálogo exportado y ordenado. Verificación (Top 5): [1001, 1002, 1003, 1004, 1005]
+ -> Total de productos indexados: 1200
+
+----------------------------------------------------------------------
+ RETO 2: ASIGNACIÓN DE RECURSOS (MOCHILA 0/1) 
+----------------------------------------------------------------------
+ -> Capacidad: 50.0 m3 | Utilizado: 49.89 m3 | Carga: 52 items
+ -> Ganancia Neta Optimizada: $189725.6 USD
+ -> IDs seleccionados (primeros 10): [2195, 2169, 2101, 2074, 2048, 2031, 2014, 1978, 1946, 1926]
+
+----------------------------------------------------------------------
+ RETO 3: TRÁFICO MÁXIMO EN RED (FORD-FULKERSON / EDMONDS-KARP) 
+----------------------------------------------------------------------
+ -> Grafo construido desde df_logistica: 10 nodos (4 orígenes, 4 destinos).
+ -> Capacidad máxima de la red logística: 9285.18 m3 (volumen equivalente).
+    * O_1 -> D_6 - [Saturación al 100%]
+    * O_1 -> D_7 - [Saturación al 100%]
+    * O_1 -> D_8 - [Saturación al 100%]
+    * O_1 -> D_9 - [Saturación al 100%]
+    * O_2 -> D_6 - [Saturación al 100%]
+    * O_2 -> D_7 - [Saturación al 100%]
+    * O_2 -> D_8 - [Saturación al 100%]
+    * O_2 -> D_9 - [Saturación al 100%]
+    * O_3 -> D_6 - [Saturación al 100%]
+    * O_3 -> D_7 - [Saturación al 100%]
+    * O_3 -> D_8 - [Saturación al 100%]
+    * O_3 -> D_9 - [Saturación al 100%]
+    * O_4 -> D_6 - [Saturación al 100%]
+    * O_4 -> D_9 - [Saturación al 100%]
+    * D_7 -> SUPER_DESTINO - [Saturación al 100%]
+    * D_8 -> SUPER_DESTINO - [Saturación al 100%]
+
+----------------------------------------------------------------------
+ RETO 4: RUTAS DE ÚLTIMA MILLA (A-ESTRELLA CON IA) 
+----------------------------------------------------------------------
+ -> Ruta evasiva trazada con éxito. Costo (Combustible): 10 bloques.
+ -> Trayectoria (Coordenadas): [(0, 0), (0, 1), (0, 2), (1, 2), (2, 2), (2, 3), (2, 4), (2, 5), (3, 5), (4, 5), (5, 5)]
+
+======================================================================
+             EJECUCIÓN FINALIZADA. LISTO PARA AUDITORÍA.              
+======================================================================
+
