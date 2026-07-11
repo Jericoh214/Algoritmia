@@ -22,7 +22,7 @@ from ford import (  #Importamos funciones del archivo ford.py
     calcular_flujo_maximo, 
     etiquetas_cuellos_de_botella,
 ) 
-from estrella import buscar_ruta_a_estrella
+from astar import buscar_ruta_a_estrella  # A* (busca la ruta optima en un camino(0) lleno de obstaculos (1)
 
 
 class Tee:
@@ -45,7 +45,7 @@ class Tee:
 def main():
     print("\n" + "=" * 70)
     print(" SISTEMA INTEGRAL DE OPTIMIZACIÓN - SAFEROUTE LOGISTICS ".center(70))
-    print("=" * 70)
+    print("=" * 70) 
 
     # 0. Datos
     df_logistica = generar_dataset_logistico()
@@ -95,7 +95,7 @@ def main():
     mapa_urbano = [
         [0, 0, 0, 0, 1, 0],
         [1, 1, 0, 1, 1, 0],
-        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1],
         [0, 1, 1, 1, 1, 0],
         [0, 0, 0, 0, 1, 0],
         [0, 1, 0, 0, 0, 0],

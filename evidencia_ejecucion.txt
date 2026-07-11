@@ -1,72 +1,4 @@
 
-A continuacion se presenta el output del programa, con el que 
-evidenciamos su correcto funcionamiento, probando ademas distintos inputs o registros: 
-
-_______________________________________________________________________________________________________________________________________
-                        PRIMERA PRUEBA: DATASET inicializado 1500 registros:
-_______________________________________________________________________________________________________________________________________
-
-======================================================================
-        SISTEMA INTEGRAL DE OPTIMIZACIÓN - SAFEROUTE LOGISTICS        
-======================================================================  
-
-[SISTEMA] Dataset estocástico inicializado con 1500 registros.
-
-----------------------------------------------------------------------
- RETO 1: CONSISTENCIA DE INVENTARIOS (ÁRBOL AVL) 
-----------------------------------------------------------------------
- -> Catálogo exportado y ordenado. Verificación (Top 5): [1001, 1002, 1003, 1004, 1005]
- -> Total de productos indexados: 1500
-
-----------------------------------------------------------------------
- RETO 2: ASIGNACIÓN DE RECURSOS (MOCHILA 0/1) 
-----------------------------------------------------------------------
- -> Capacidad: 50.0 m3 | Utilizado: 50.0 m3 | Carga: 52 items
- -> Ganancia Neta Optimizada: $205053.41 USD
- -> IDs seleccionados (primeros 10): [2484, 2466, 2455, 2427, 2423, 2417, 2414, 2303, 2301, 2290]
-
-----------------------------------------------------------------------
- RETO 3: TRÁFICO MÁXIMO EN RED (FORD-FULKERSON / EDMONDS-KARP) 
-----------------------------------------------------------------------
- -> Grafo construido desde df_logistica: 10 nodos (4 orígenes, 4 destinos).
- -> Capacidad máxima de la red logística: 11610.81 m3 (volumen equivalente).
-    * SUPER_ORIGEN -> O_1 - [Saturación al 100%]
-    * SUPER_ORIGEN -> O_2 - [Saturación al 100%]
-    * SUPER_ORIGEN -> O_3 - [Saturación al 100%]
-    * O_1 -> D_6 - [Saturación al 100%]
-    * O_1 -> D_7 - [Saturación al 100%]
-    * O_1 -> D_8 - [Saturación al 100%]
-    * O_1 -> D_9 - [Saturación al 100%]
-    * O_2 -> D_6 - [Saturación al 100%]
-    * O_2 -> D_8 - [Saturación al 100%]
-    * O_2 -> D_9 - [Saturación al 100%]
-    * O_3 -> D_6 - [Saturación al 100%]
-    * O_3 -> D_7 - [Saturación al 100%]
-    * O_3 -> D_8 - [Saturación al 100%]
-    * O_4 -> D_6 - [Saturación al 100%]
-    * O_4 -> D_7 - [Saturación al 100%]
-    * O_4 -> D_8 - [Saturación al 100%]
-    * O_4 -> D_9 - [Saturación al 100%]
-    * D_7 -> SUPER_DESTINO - [Saturación al 100%]
-    * D_8 -> SUPER_DESTINO - [Saturación al 100%]
-
-----------------------------------------------------------------------
- RETO 4: RUTAS DE ÚLTIMA MILLA (A-ESTRELLA CON IA) 
-----------------------------------------------------------------------
- -> Ruta evasiva trazada con éxito. Costo (Combustible): 10 bloques.
- -> Trayectoria (Coordenadas): [(0, 0), (0, 1), (0, 2), (1, 2), (2, 2), (2, 3), (2, 4), (2, 5), (3, 5), (4, 5), (5, 5)]
-
-======================================================================
-             EJECUCIÓN FINALIZADA. LISTO PARA AUDITORÍA.              
-======================================================================
-
-_______________________________________________________________________________________________________________________________________
-
-
-PRUEBA Dataset inicializado 2000 registros: 
-
-
-
 ======================================================================
         SISTEMA INTEGRAL DE OPTIMIZACIÓN - SAFEROUTE LOGISTICS        
 ======================================================================
@@ -113,9 +45,10 @@ PRUEBA Dataset inicializado 2000 registros:
 ----------------------------------------------------------------------
  RETO 4: RUTAS DE ÚLTIMA MILLA (A-ESTRELLA CON IA) 
 ----------------------------------------------------------------------
- -> Ruta evasiva trazada con éxito. Costo (Combustible): 10 bloques.
- -> Trayectoria (Coordenadas): [(0, 0), (0, 1), (0, 2), (1, 2), (2, 2), (2, 3), (2, 4), (2, 5), (3, 5), (4, 5), (5, 5)]
+ -> Ruta evasiva trazada con éxito. Costo (Combustible): 14 bloques.
+ -> Trayectoria (Coordenadas): [(0, 0), (0, 1), (0, 2), (1, 2), (2, 2), (2, 1), (2, 0), (3, 0), (4, 0), (4, 1), (4, 2), (4, 3), (5, 3), (5, 4), (5, 5)]
 
 ======================================================================
              EJECUCIÓN FINALIZADA. LISTO PARA AUDITORÍA.              
 ======================================================================
+
