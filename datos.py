@@ -24,7 +24,7 @@ def generar_dataset_logistico():
             Origen, Destino.
     """
     np.random.seed(42) #semilla para datos random (aleatorios o estocásticos)
-    n_registros = 2000  # Requisito de la rúbrica: N > 1000
+    n_registros = 1200  # Requisito de la rúbrica: N > 1000
 
     # Construcción de las columnas usando distribuciones uniformes y aleatorias
     data = {

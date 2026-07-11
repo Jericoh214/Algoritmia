@@ -3,50 +3,69 @@
         SISTEMA INTEGRAL DE OPTIMIZACIÓN - SAFEROUTE LOGISTICS        
 ======================================================================
 
-[SISTEMA] Dataset estocástico inicializado con 2000 registros.
+[SISTEMA] Dataset estocástico inicializado con 1200 registros.
 
 ----------------------------------------------------------------------
  RETO 1: CONSISTENCIA DE INVENTARIOS (ÁRBOL AVL) 
 ----------------------------------------------------------------------
  -> Catálogo exportado y ordenado. Verificación (Top 5): [1001, 1002, 1003, 1004, 1005]
- -> Total de productos indexados: 2000
+ -> Total de productos indexados: 1200
 
 ----------------------------------------------------------------------
  RETO 2: ASIGNACIÓN DE RECURSOS (MOCHILA 0/1) 
 ----------------------------------------------------------------------
- -> Capacidad: 50.0 m3 | Utilizado: 50.0 m3 | Carga: 56 items
- -> Ganancia Neta Optimizada: $219191.03 USD
- -> IDs seleccionados (primeros 10): [2971, 2941, 2922, 2902, 2887, 2814, 2800, 2747, 2726, 2715]
+ -> Capacidad: 50.0 m3 | Utilizado: 49.89 m3 | Carga: 52 items
+ -> Ganancia Neta Optimizada: $189725.6 USD
+ -> Combinación exacta de productos seleccionados (52 IDs): [2195, 2169, 2101, 2074, 2048, 2031, 2014, 1978, 1946, 1926, 1902, 1899, 1883, 1879, 1875, 1841, 1822, 1795, 1765, 1705, 1641, 1629, 1611, 1564, 1558, 1529, 1516, 1487, 1473, 1471, 1457, 1440, 1435, 1408, 1378, 1357, 1333, 1313, 1300, 1245, 1238, 1209, 1206, 1149, 1129, 1110, 1099, 1078, 1073, 1043, 1011, 1007]
 
 ----------------------------------------------------------------------
  RETO 3: TRÁFICO MÁXIMO EN RED (FORD-FULKERSON / EDMONDS-KARP) 
 ----------------------------------------------------------------------
  -> Grafo construido desde df_logistica: 10 nodos (4 orígenes, 4 destinos).
- -> Capacidad máxima de la red logística: 15460.24 m3 (volumen equivalente).
-    * SUPER_ORIGEN -> O_1 - [Saturación al 100%]
-    * SUPER_ORIGEN -> O_3 - [Saturación al 100%]
-    * SUPER_ORIGEN -> O_4 - [Saturación al 100%]
-    * O_1 -> D_6 - [Saturación al 100%]
-    * O_1 -> D_7 - [Saturación al 100%]
-    * O_1 -> D_8 - [Saturación al 100%]
-    * O_2 -> D_6 - [Saturación al 100%]
-    * O_2 -> D_7 - [Saturación al 100%]
-    * O_2 -> D_8 - [Saturación al 100%]
-    * O_2 -> D_9 - [Saturación al 100%]
-    * O_3 -> D_6 - [Saturación al 100%]
-    * O_3 -> D_7 - [Saturación al 100%]
-    * O_3 -> D_8 - [Saturación al 100%]
-    * O_4 -> D_7 - [Saturación al 100%]
-    * O_4 -> D_8 - [Saturación al 100%]
-    * O_4 -> D_9 - [Saturación al 100%]
-    * D_6 -> SUPER_DESTINO - [Saturación al 100%]
-    * D_9 -> SUPER_DESTINO - [Saturación al 100%]
+ -> Capacidad máxima de la red logística: 8019.5 m3 (volumen equivalente).
+
+ -> Cuellos de botella reales (saturación >= 99.99%, calculada, no asumida):
+    * O_1 -> D_6 (100.0% saturado, 550.04/550.04 m3)
+    * O_1 -> D_7 (100.0% saturado, 658.89/658.89 m3)
+    * O_1 -> D_8 (100.0% saturado, 610.27/610.27 m3)
+    * O_1 -> D_9 (100.0% saturado, 390.08/390.08 m3)
+    * O_2 -> D_6 (100.0% saturado, 420.07/420.07 m3)
+    * O_2 -> D_7 (100.0% saturado, 649.42/649.42 m3)
+    * O_2 -> D_8 (100.0% saturado, 302.11/302.11 m3)
+    * O_2 -> D_9 (100.0% saturado, 628.49/628.49 m3)
+    * O_3 -> D_6 (100.0% saturado, 618.83/618.83 m3)
+    * O_3 -> D_7 (100.0% saturado, 487.17/487.17 m3)
+    * O_3 -> D_8 (100.0% saturado, 421.21/421.21 m3)
+    * O_3 -> D_9 (100.0% saturado, 411.37/411.37 m3)
+    * O_4 -> D_6 (100.0% saturado, 401.95/401.95 m3)
+    * O_4 -> D_8 (100.0% saturado, 501.82/501.82 m3)
+    * O_4 -> D_9 (100.0% saturado, 521.4/521.4 m3)
+    * D_7 -> SUPER_DESTINO (100.0% saturado, 2241.86/2241.86 m3)
+
+ -> Top 5 aristas con mayor % de utilización (saturadas o no):
+    * O_1 -> D_6: 100.0% (550.04/550.04 m3)
+    * O_1 -> D_7: 100.0% (658.89/658.89 m3)
+    * O_1 -> D_8: 100.0% (610.27/610.27 m3)
+    * O_1 -> D_9: 100.0% (390.08/390.08 m3)
+    * O_2 -> D_6: 100.0% (420.07/420.07 m3)
+
+ -> Rutas donde la DEMANDA supera la CAPACIDAD FÍSICA simulada (inversión prioritaria):
+    * O_1 -> D_6: demanda 641.95 m3 > capacidad vial 550.04 m3 (déficit de 91.91 m3)
+    * O_1 -> D_9: demanda 605.58 m3 > capacidad vial 390.08 m3 (déficit de 215.5 m3)
+    * O_2 -> D_6: demanda 552.87 m3 > capacidad vial 420.07 m3 (déficit de 132.8 m3)
+    * O_2 -> D_8: demanda 636.08 m3 > capacidad vial 302.11 m3 (déficit de 333.97 m3)
+    * O_3 -> D_7: demanda 519.92 m3 > capacidad vial 487.17 m3 (déficit de 32.75 m3)
+    * O_3 -> D_8: demanda 661.81 m3 > capacidad vial 421.21 m3 (déficit de 240.6 m3)
+    * O_3 -> D_9: demanda 533.68 m3 > capacidad vial 411.37 m3 (déficit de 122.31 m3)
+    * O_4 -> D_6: demanda 639.18 m3 > capacidad vial 401.95 m3 (déficit de 237.23 m3)
+    * O_4 -> D_7: demanda 592.58 m3 > capacidad vial 478.03 m3 (déficit de 114.55 m3)
+    * O_4 -> D_9: demanda 622.04 m3 > capacidad vial 521.4 m3 (déficit de 100.64 m3)
 
 ----------------------------------------------------------------------
  RETO 4: RUTAS DE ÚLTIMA MILLA (A-ESTRELLA CON IA) 
 ----------------------------------------------------------------------
- -> Ruta evasiva trazada con éxito. Costo (Combustible): 14 bloques.
- -> Trayectoria (Coordenadas): [(0, 0), (0, 1), (0, 2), (1, 2), (2, 2), (2, 1), (2, 0), (3, 0), (4, 0), (4, 1), (4, 2), (4, 3), (5, 3), (5, 4), (5, 5)]
+ -> Ruta evasiva trazada con éxito. Costo (Combustible): 10 bloques.
+ -> Trayectoria (Coordenadas): [(0, 0), (0, 1), (0, 2), (1, 2), (2, 2), (2, 3), (2, 4), (2, 5), (3, 5), (4, 5), (5, 5)]
 
 ======================================================================
              EJECUCIÓN FINALIZADA. LISTO PARA AUDITORÍA.              

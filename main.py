@@ -1,5 +1,3 @@
-#Comentar 
-
 """
 EJECUCIÓN PRINCIPAL: CONSOLA DE AUDITORÍA
 =============================================
@@ -14,15 +12,16 @@ obligatorio ("Evidencias de Ejecución").
 import sys
 import io
 
-from datos import generar_dataset_logistico #importamos el dataset (datos)
-from arbol_avl import ArbolAVL #importamos la clase arbol AVL (Funcionnamiento del arbol autobalanceado)
-from knapsack import optimizar_carga_knapsack #mochila (halla combinacion de productos que maximiza la utilidad neta sin exceder la capacidad de carga del camión (Volumen_m3).)
-from ford import (  #Importamos funciones del archivo ford.py
-    construir_grafo_desde_df,   
-    calcular_flujo_maximo, 
+from datos import generar_dataset_logistico
+from arbol_avl import ArbolAVL
+from knapsack import optimizar_carga_knapsack
+from ford import (
+    construir_grafo_desde_df,
+    calcular_flujo_maximo,
     etiquetas_cuellos_de_botella,
-) 
-from astar import buscar_ruta_a_estrella  # A* (busca la ruta optima en un camino(0) lleno de obstaculos (1)
+    top_aristas_por_utilizacion,
+)
+from astar import buscar_ruta_a_estrella
 
 
 class Tee:
@@ -45,7 +44,7 @@ class Tee:
 def main():
     print("\n" + "=" * 70)
     print(" SISTEMA INTEGRAL DE OPTIMIZACIÓN - SAFEROUTE LOGISTICS ".center(70))
-    print("=" * 70) 
+    print("=" * 70)
 
     # 0. Datos
     df_logistica = generar_dataset_logistico()
@@ -73,19 +72,45 @@ def main():
     ganancia, ids_cargados, espacio = optimizar_carga_knapsack(df_logistica, cap_camion)
     print(f" -> Capacidad: {cap_camion} m3 | Utilizado: {espacio} m3 | Carga: {len(ids_cargados)} items")
     print(f" -> Ganancia Neta Optimizada: ${ganancia} USD")
-    print(f" -> IDs seleccionados (primeros 10): {ids_cargados[:10]}")
+    print(f" -> Combinación exacta de productos seleccionados ({len(ids_cargados)} IDs): {ids_cargados}")
 
-    # 3. RETO FORD-FULKERSON (ahora construido desde el dataset real)
+    # 3. RETO FORD-FULKERSON (ahora construido desde el dataset real, con
+    #    capacidad física de carretera simulada e independiente de la demanda)
     print("\n" + "-" * 70)
     print(" RETO 3: TRÁFICO MÁXIMO EN RED (FORD-FULKERSON / EDMONDS-KARP) ")
     print("-" * 70)
-    red_logistica, node_index, fuente, sumidero = construir_grafo_desde_df(df_logistica)
-    flujo_max, cuellos = calcular_flujo_maximo(red_logistica, fuente, sumidero)
+    red_logistica, node_index, fuente, sumidero, metadatos = construir_grafo_desde_df(df_logistica)
+    flujo_max, cuellos, reporte_utilizacion = calcular_flujo_maximo(red_logistica, fuente, sumidero)
     print(f" -> Grafo construido desde df_logistica: {len(node_index)} nodos "
           f"({df_logistica['Origen'].nunique()} orígenes, {df_logistica['Destino'].nunique()} destinos).")
     print(f" -> Capacidad máxima de la red logística: {round(flujo_max, 2)} m3 (volumen equivalente).")
-    for etiqueta in etiquetas_cuellos_de_botella(cuellos, node_index):
-        print(f"    * {etiqueta} - [Saturación al 100%]")
+
+    print(f"\n -> Cuellos de botella reales (saturación >= 99.99%, calculada, no asumida):")
+    etiquetas = etiquetas_cuellos_de_botella(cuellos, node_index)
+    if etiquetas:
+        for etiqueta in etiquetas:
+            print(f"    * {etiqueta}")
+    else:
+        print("    * Ninguna arista alcanzó saturación total con este dataset.")
+
+    print(f"\n -> Top 5 aristas con mayor % de utilización (saturadas o no):")
+    for linea in top_aristas_por_utilizacion(reporte_utilizacion, node_index, top_n=5):
+        print(f"    * {linea}")
+
+    print(f"\n -> Rutas donde la DEMANDA supera la CAPACIDAD FÍSICA simulada "
+          f"(inversión prioritaria):")
+    demanda_od = metadatos["demanda_od"]
+    capacidad_od = metadatos["capacidad_fisica_od"]
+    hay_deficit = False
+    for (o, d), demanda in sorted(demanda_od.items()):
+        capacidad = capacidad_od[(o, d)]
+        if demanda > capacidad:
+            hay_deficit = True
+            deficit = round(demanda - capacidad, 2)
+            print(f"    * O_{o} -> D_{d}: demanda {round(demanda, 2)} m3 "
+                  f"> capacidad vial {capacidad} m3 (déficit de {deficit} m3)")
+    if not hay_deficit:
+        print("    * Ninguna ruta tiene déficit; la infraestructura simulada alcanza para toda la demanda.")
 
     # 4. RETO A-ESTRELLA
     print("\n" + "-" * 70)
@@ -95,7 +120,7 @@ def main():
     mapa_urbano = [
         [0, 0, 0, 0, 1, 0],
         [1, 1, 0, 1, 1, 0],
-        [0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0],
         [0, 1, 1, 1, 1, 0],
         [0, 0, 0, 0, 1, 0],
         [0, 1, 0, 0, 0, 0],
