@@ -8,15 +8,84 @@
 ----------------------------------------------------------------------
  RETO 1: CONSISTENCIA DE INVENTARIOS (ÁRBOL AVL) 
 ----------------------------------------------------------------------
- -> Catálogo exportado y ordenado. Verificación (Top 5): [1001, 1002, 1003, 1004, 1005]
- -> Total de productos indexados: 1200
+ -> Catálogo exportado y ordenado. Total de productos indexados: 1200
+
+ -> Verificación (Top 5 + Bottom 5 del recorrido In-Order):
+ ID_Producto  Volumen_m3  Utilidad_USD  Origen  Destino
+        1001        5.93       3815.49       3        8
+        1002       14.29        220.48       3        6
+        1003       11.11        208.41       3        6
+        1004        9.18       1685.69       3        9
+        1005        2.76       2494.35       2        8
+        2196       13.14       1794.80       4        9
+        2197       14.62        856.85       3        6
+        2198       14.55        224.69       2        6
+        2199       11.37       3264.53       4        9
+        2200        2.39       3220.82       2        8
 
 ----------------------------------------------------------------------
  RETO 2: ASIGNACIÓN DE RECURSOS (MOCHILA 0/1) 
 ----------------------------------------------------------------------
  -> Capacidad: 50.0 m3 | Utilizado: 49.89 m3 | Carga: 52 items
  -> Ganancia Neta Optimizada: $189725.6 USD
- -> Combinación exacta de productos seleccionados (52 IDs): [2195, 2169, 2101, 2074, 2048, 2031, 2014, 1978, 1946, 1926, 1902, 1899, 1883, 1879, 1875, 1841, 1822, 1795, 1765, 1705, 1641, 1629, 1611, 1564, 1558, 1529, 1516, 1487, 1473, 1471, 1457, 1440, 1435, 1408, 1378, 1357, 1333, 1313, 1300, 1245, 1238, 1209, 1206, 1149, 1129, 1110, 1099, 1078, 1073, 1043, 1011, 1007]
+
+ -> Combinación exacta de productos seleccionados (52 items):
+ ID_Producto  Volumen_m3  Utilidad_USD  Origen  Destino
+        1007        1.34       3448.15       1        9
+        1011        0.80       2188.29       1        9
+        1043        1.00       3877.52       2        9
+        1073        0.58       3921.27       1        7
+        1078        1.57       4934.65       1        7
+        1099        0.87       3218.51       2        8
+        1110        1.62       4092.64       3        7
+        1129        0.60       3327.67       2        8
+        1149        1.25       4939.48       1        9
+        1206        0.63       2425.69       3        6
+        1209        0.57       2968.24       4        8
+        1238        0.85       3552.94       2        6
+        1245        0.72       4353.90       2        9
+        1300        1.74       4330.33       3        7
+        1313        0.87       4782.07       3        6
+        1333        0.71       3609.14       4        9
+        1357        0.88       3093.81       1        6
+        1378        0.84       3245.66       2        9
+        1408        0.66       4021.75       1        6
+        1435        1.72       4643.17       3        9
+        1440        1.68       4642.30       4        9
+        1457        0.66       2813.63       2        9
+        1471        0.68       1965.05       1        8
+        1473        1.13       4353.48       1        8
+        1487        1.16       4621.51       4        7
+        1516        0.88       4974.84       2        6
+        1529        1.32       4088.45       1        6
+        1558        0.92       2490.48       2        7
+        1564        0.71       2492.38       2        8
+        1611        1.07       3335.48       2        7
+        1629        1.03       4013.70       4        8
+        1641        0.79       1923.62       3        8
+        1705        1.42       3754.10       3        9
+        1765        0.99       2902.17       4        6
+        1795        0.76       3781.74       2        7
+        1822        0.57       2844.82       2        6
+        1841        0.69       4268.02       4        7
+        1875        0.87       4409.95       4        8
+        1879        0.89       4926.45       1        7
+        1883        0.79       2373.26       1        6
+        1899        0.69       4009.78       3        8
+        1902        0.88       2711.84       1        6
+        1926        0.83       3372.81       4        8
+        1946        0.66       4126.02       1        8
+        1978        1.25       3250.12       3        6
+        2014        1.07       4817.77       4        6
+        2031        1.04       3741.65       3        7
+        2048        0.85       4173.73       1        9
+        2074        0.76       3295.90       2        9
+        2101        1.34       4032.67       4        9
+        2169        0.59       1781.52       1        7
+        2195        1.16       4461.48       4        8
+
+ -> Verificación: suma Volumen_m3 de la tabla = 49.95 m3 (debe coincidir con 'Utilizado')
+ -> Verificación: suma Utilidad_USD de la tabla = $189725.6 (debe coincidir con 'Ganancia Neta Optimizada')
 
 ----------------------------------------------------------------------
  RETO 3: TRÁFICO MÁXIMO EN RED (FORD-FULKERSON / EDMONDS-KARP) 
@@ -24,42 +93,27 @@
  -> Grafo construido desde df_logistica: 10 nodos (4 orígenes, 4 destinos).
  -> Capacidad máxima de la red logística: 8019.5 m3 (volumen equivalente).
 
- -> Cuellos de botella reales (saturación >= 99.99%, calculada, no asumida):
-    * O_1 -> D_6 (100.0% saturado, 550.04/550.04 m3)
-    * O_1 -> D_7 (100.0% saturado, 658.89/658.89 m3)
-    * O_1 -> D_8 (100.0% saturado, 610.27/610.27 m3)
-    * O_1 -> D_9 (100.0% saturado, 390.08/390.08 m3)
-    * O_2 -> D_6 (100.0% saturado, 420.07/420.07 m3)
-    * O_2 -> D_7 (100.0% saturado, 649.42/649.42 m3)
-    * O_2 -> D_8 (100.0% saturado, 302.11/302.11 m3)
-    * O_2 -> D_9 (100.0% saturado, 628.49/628.49 m3)
-    * O_3 -> D_6 (100.0% saturado, 618.83/618.83 m3)
-    * O_3 -> D_7 (100.0% saturado, 487.17/487.17 m3)
-    * O_3 -> D_8 (100.0% saturado, 421.21/421.21 m3)
-    * O_3 -> D_9 (100.0% saturado, 411.37/411.37 m3)
-    * O_4 -> D_6 (100.0% saturado, 401.95/401.95 m3)
-    * O_4 -> D_8 (100.0% saturado, 501.82/501.82 m3)
-    * O_4 -> D_9 (100.0% saturado, 521.4/521.4 m3)
-    * D_7 -> SUPER_DESTINO (100.0% saturado, 2241.86/2241.86 m3)
+ -> Detalle por ruta Origen -> Destino:
+ Origen  Destino  Demanda_m3  Capacidad_Vial_m3  Flujo_Usado_m3  Saturacion_% Cuello_Botella  Deficit_m3
+      1        6      641.95             550.04          550.04        100.00             SI       91.91
+      1        7      610.30             658.89          658.89        100.00             SI        0.00
+      1        8      584.97             610.27          610.27        100.00             SI        0.00
+      1        9      605.58             390.08          390.08        100.00             SI      215.50
+      2        6      552.87             420.07          420.07        100.00             SI      132.80
+      2        7      519.06             649.42          649.42        100.00             SI        0.00
+      2        8      636.08             302.11          302.11        100.00             SI      333.97
+      2        9      488.78             628.49          628.49        100.00             SI        0.00
+      3        6      592.26             618.83          618.83        100.00             SI        0.00
+      3        7      519.92             487.17          487.17        100.00             SI       32.75
+      3        8      661.81             421.21          421.21        100.00             SI      240.60
+      3        9      533.68             411.37          411.37        100.00             SI      122.31
+      4        6      639.18             401.95          401.95        100.00             SI      237.23
+      4        7      592.58             478.03          446.38         93.38             no      114.55
+      4        8      484.12             501.82          501.82        100.00             SI        0.00
+      4        9      622.04             521.40          521.40        100.00             SI      100.64
 
- -> Top 5 aristas con mayor % de utilización (saturadas o no):
-    * O_1 -> D_6: 100.0% (550.04/550.04 m3)
-    * O_1 -> D_7: 100.0% (658.89/658.89 m3)
-    * O_1 -> D_8: 100.0% (610.27/610.27 m3)
-    * O_1 -> D_9: 100.0% (390.08/390.08 m3)
-    * O_2 -> D_6: 100.0% (420.07/420.07 m3)
-
- -> Rutas donde la DEMANDA supera la CAPACIDAD FÍSICA simulada (inversión prioritaria):
-    * O_1 -> D_6: demanda 641.95 m3 > capacidad vial 550.04 m3 (déficit de 91.91 m3)
-    * O_1 -> D_9: demanda 605.58 m3 > capacidad vial 390.08 m3 (déficit de 215.5 m3)
-    * O_2 -> D_6: demanda 552.87 m3 > capacidad vial 420.07 m3 (déficit de 132.8 m3)
-    * O_2 -> D_8: demanda 636.08 m3 > capacidad vial 302.11 m3 (déficit de 333.97 m3)
-    * O_3 -> D_7: demanda 519.92 m3 > capacidad vial 487.17 m3 (déficit de 32.75 m3)
-    * O_3 -> D_8: demanda 661.81 m3 > capacidad vial 421.21 m3 (déficit de 240.6 m3)
-    * O_3 -> D_9: demanda 533.68 m3 > capacidad vial 411.37 m3 (déficit de 122.31 m3)
-    * O_4 -> D_6: demanda 639.18 m3 > capacidad vial 401.95 m3 (déficit de 237.23 m3)
-    * O_4 -> D_7: demanda 592.58 m3 > capacidad vial 478.03 m3 (déficit de 114.55 m3)
-    * O_4 -> D_9: demanda 622.04 m3 > capacidad vial 521.4 m3 (déficit de 100.64 m3)
+ -> Total de rutas en cuello de botella (saturación >= 99.99%): 15 de 16
+ -> Total de rutas con déficit de infraestructura (demanda > capacidad vial): 10 de 16
 
 ----------------------------------------------------------------------
  RETO 4: RUTAS DE ÚLTIMA MILLA (A-ESTRELLA CON IA) 

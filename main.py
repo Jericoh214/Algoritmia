@@ -11,16 +11,12 @@ obligatorio ("Evidencias de Ejecución").
 
 import sys
 import io
+import pandas as pd
 
 from datos import generar_dataset_logistico
 from arbol_avl import ArbolAVL
 from knapsack import optimizar_carga_knapsack
-from ford import (
-    construir_grafo_desde_df,
-    calcular_flujo_maximo,
-    etiquetas_cuellos_de_botella,
-    top_aristas_por_utilizacion,
-)
+from ford import construir_grafo_desde_df, calcular_flujo_maximo
 from astar import buscar_ruta_a_estrella
 
 
@@ -61,8 +57,12 @@ def main():
     for id_prod in ids_desordenados:
         raiz = arbol_inventario.insertar(raiz, id_prod)
     catalogo_ordenado = arbol_inventario.in_order(raiz, [])
-    print(f" -> Catálogo exportado y ordenado. Verificación (Top 5): {catalogo_ordenado[:5]}")
-    print(f" -> Total de productos indexados: {len(catalogo_ordenado)}")
+    print(f" -> Catálogo exportado y ordenado. Total de productos indexados: {len(catalogo_ordenado)}\n")
+
+    ids_muestra = catalogo_ordenado[:5] + catalogo_ordenado[-5:]
+    tabla_catalogo = df_logistica[df_logistica['ID_Producto'].isin(ids_muestra)].sort_values('ID_Producto')
+    print(" -> Verificación (Top 5 + Bottom 5 del recorrido In-Order):")
+    print(tabla_catalogo.to_string(index=False))
 
     # 2. RETO KNAPSACK
     print("\n" + "-" * 70)
@@ -71,8 +71,15 @@ def main():
     cap_camion = 50.0  # 50 metros cúbicos
     ganancia, ids_cargados, espacio = optimizar_carga_knapsack(df_logistica, cap_camion)
     print(f" -> Capacidad: {cap_camion} m3 | Utilizado: {espacio} m3 | Carga: {len(ids_cargados)} items")
-    print(f" -> Ganancia Neta Optimizada: ${ganancia} USD")
-    print(f" -> Combinación exacta de productos seleccionados ({len(ids_cargados)} IDs): {ids_cargados}")
+    print(f" -> Ganancia Neta Optimizada: ${ganancia} USD\n")
+
+    tabla_seleccion = df_logistica[df_logistica['ID_Producto'].isin(ids_cargados)].sort_values('ID_Producto')
+    print(f" -> Combinación exacta de productos seleccionados ({len(ids_cargados)} items):")
+    print(tabla_seleccion.to_string(index=False))
+    print(f"\n -> Verificación: suma Volumen_m3 de la tabla = "
+          f"{round(tabla_seleccion['Volumen_m3'].sum(), 2)} m3 (debe coincidir con 'Utilizado')")
+    print(f" -> Verificación: suma Utilidad_USD de la tabla = "
+          f"${round(tabla_seleccion['Utilidad_USD'].sum(), 2)} (debe coincidir con 'Ganancia Neta Optimizada')")
 
     # 3. RETO FORD-FULKERSON (ahora construido desde el dataset real, con
     #    capacidad física de carretera simulada e independiente de la demanda)
@@ -83,34 +90,40 @@ def main():
     flujo_max, cuellos, reporte_utilizacion = calcular_flujo_maximo(red_logistica, fuente, sumidero)
     print(f" -> Grafo construido desde df_logistica: {len(node_index)} nodos "
           f"({df_logistica['Origen'].nunique()} orígenes, {df_logistica['Destino'].nunique()} destinos).")
-    print(f" -> Capacidad máxima de la red logística: {round(flujo_max, 2)} m3 (volumen equivalente).")
+    print(f" -> Capacidad máxima de la red logística: {round(flujo_max, 2)} m3 (volumen equivalente).\n")
 
-    print(f"\n -> Cuellos de botella reales (saturación >= 99.99%, calculada, no asumida):")
-    etiquetas = etiquetas_cuellos_de_botella(cuellos, node_index)
-    if etiquetas:
-        for etiqueta in etiquetas:
-            print(f"    * {etiqueta}")
-    else:
-        print("    * Ninguna arista alcanzó saturación total con este dataset.")
-
-    print(f"\n -> Top 5 aristas con mayor % de utilización (saturadas o no):")
-    for linea in top_aristas_por_utilizacion(reporte_utilizacion, node_index, top_n=5):
-        print(f"    * {linea}")
-
-    print(f"\n -> Rutas donde la DEMANDA supera la CAPACIDAD FÍSICA simulada "
-          f"(inversión prioritaria):")
+    # Tabla consolidada por cada arista Origen -> Destino (columnas Origen y
+    # Destino, tal como existen en df_logistica), comparando demanda real del
+    # dataset contra la capacidad física simulada de la carretera y el % de
+    # saturación calculado por Edmonds-Karp.
+    indice_a_nombre = {v: k for k, v in node_index.items()}
     demanda_od = metadatos["demanda_od"]
     capacidad_od = metadatos["capacidad_fisica_od"]
-    hay_deficit = False
-    for (o, d), demanda in sorted(demanda_od.items()):
-        capacidad = capacidad_od[(o, d)]
-        if demanda > capacidad:
-            hay_deficit = True
-            deficit = round(demanda - capacidad, 2)
-            print(f"    * O_{o} -> D_{d}: demanda {round(demanda, 2)} m3 "
-                  f"> capacidad vial {capacidad} m3 (déficit de {deficit} m3)")
-    if not hay_deficit:
-        print("    * Ninguna ruta tiene déficit; la infraestructura simulada alcanza para toda la demanda.")
+    filas_red = []
+    for item in reporte_utilizacion:
+        nombre_u = indice_a_nombre[item["origen"]]
+        nombre_v = indice_a_nombre[item["destino"]]
+        if nombre_u.startswith("O_") and nombre_v.startswith("D_"):
+            o, d = int(nombre_u.split("_")[1]), int(nombre_v.split("_")[1])
+            demanda = round(demanda_od.get((o, d), 0.0), 2)
+            capacidad = capacidad_od[(o, d)]
+            filas_red.append({
+                "Origen": o,
+                "Destino": d,
+                "Demanda_m3": demanda,
+                "Capacidad_Vial_m3": capacidad,
+                "Flujo_Usado_m3": item["flujo_usado"],
+                "Saturacion_%": item["porcentaje_saturacion"],
+                "Cuello_Botella": "SI" if item["porcentaje_saturacion"] >= 99.99 else "no",
+                "Deficit_m3": round(max(demanda - capacidad, 0.0), 2),
+            })
+    tabla_red = pd.DataFrame(filas_red).sort_values(["Origen", "Destino"])
+    print(" -> Detalle por ruta Origen -> Destino:")
+    print(tabla_red.to_string(index=False))
+    print(f"\n -> Total de rutas en cuello de botella (saturación >= 99.99%): "
+          f"{(tabla_red['Cuello_Botella'] == 'SI').sum()} de {len(tabla_red)}")
+    print(f" -> Total de rutas con déficit de infraestructura (demanda > capacidad vial): "
+          f"{(tabla_red['Deficit_m3'] > 0).sum()} de {len(tabla_red)}")
 
     # 4. RETO A-ESTRELLA
     print("\n" + "-" * 70)
