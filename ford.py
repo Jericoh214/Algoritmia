@@ -42,7 +42,7 @@ def construir_grafo_desde_df(df):
     """
     origenes = sorted(df['Origen'].unique())
     destinos = sorted(df['Destino'].unique())
-
+  #a
     # Asignamos un índice contiguo a cada nodo (necesario para la matriz)
     node_index = {}
     idx = 0
