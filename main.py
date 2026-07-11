@@ -1,3 +1,5 @@
+#Comentar 
+
 """
 EJECUCIÓN PRINCIPAL: CONSOLA DE AUDITORÍA
 =============================================
@@ -12,15 +14,15 @@ obligatorio ("Evidencias de Ejecución").
 import sys
 import io
 
-from datos import generar_dataset_logistico
-from arbol_avl import ArbolAVL
-from knapsack import optimizar_carga_knapsack
-from ford import (
-    construir_grafo_desde_df,
-    calcular_flujo_maximo,
+from datos import generar_dataset_logistico #importamos el dataset (datos)
+from arbol_avl import ArbolAVL #importamos la clase arbol AVL (Funcionnamiento del arbol autobalanceado)
+from knapsack import optimizar_carga_knapsack #mochila (halla combinacion de productos que maximiza la utilidad neta sin exceder la capacidad de carga del camión (Volumen_m3).)
+from ford import (  #Importamos funciones del archivo ford.py
+    construir_grafo_desde_df,   
+    calcular_flujo_maximo, 
     etiquetas_cuellos_de_botella,
-)
-from astar import buscar_ruta_a_estrella
+) 
+from estrella import buscar_ruta_a_estrella
 
 
 class Tee:

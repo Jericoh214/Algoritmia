@@ -11,7 +11,7 @@ import numpy as np
 
 def generar_dataset_logistico():
     """
-    Genera un DataFrame simulado para SafeRoute Logistics.
+    Esta funcion se encarga de generar un DataFrame simulado para SafeRoute Logistics.
 
     Se usa una semilla (seed) para que los datos aleatorios sean siempre los
     mismos y la auditoría pueda reproducir el experimento sin errores.
@@ -21,10 +21,10 @@ def generar_dataset_logistico():
 
     Returns:
         pd.DataFrame: columnas ID_Producto, Volumen_m3, Utilidad_USD,
-                       Origen, Destino.
+            Origen, Destino.
     """
-    np.random.seed(42)
-    n_registros = 1200  # Requisito de la rúbrica: N > 1000
+    np.random.seed(42) #semilla para datos random (aleatorios o estocásticos)
+    n_registros = 2000  # Requisito de la rúbrica: N > 1000
 
     # Construcción de las columnas usando distribuciones uniformes y aleatorias
     data = {

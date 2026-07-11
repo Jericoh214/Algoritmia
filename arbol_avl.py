@@ -19,15 +19,19 @@ class NodoAVL:
         self.der = None   # Puntero al hijo mayor
         self.altura = 1   # Por defecto, un nodo nuevo entra en el nivel 1 (hoja)
 
-
+    
 class ArbolAVL:
     """
     Estructura que gestiona la inserción y el auto-balanceo de los nodos.
 
-    Complejidad temporal (insertar, in_order): O(log n) por operación gracias
-    al balanceo automático; O(n) para recorrer todo el árbol en in_order.
-    Complejidad espacial: O(n) por los n nodos almacenados, más O(log n)
-    de pila de recursión.
+    Complejidad temporal (insertar, in_order): 
+    
+        - O(log n) por operación gracias al balanceo automático
+        - O(n) para recorrer todo el árbol en in_order.
+    
+    Complejidad espacial:  
+    
+        - O(n) por los n nodos almacenados, más O(log n) de pila de recursión.
     """
 
     def obtener_altura(self, nodo):
